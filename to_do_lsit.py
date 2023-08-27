@@ -1,51 +1,71 @@
-
 import tkinter as tk
 from tkinter import messagebox
 
-class ToDoApp:
+class TO_DO_APP:
     def __init__(self, root):
         self.root = root
-        self.root.title("To-Do List App")
+        self.root.title("T0-D0 LIST APP")
 
-        self.tasks = []
-        
-        self.task_label = tk.Label(root, text="Task:")
-        self.task_label.pack()
+        self.Tasks = []
 
-        self.task_entry = tk.Entry(root)
-        self.task_entry.pack()
+        self.Task_Label = tk.Label(root, text="Task:")
+        self.Task_Label.pack(pady=(10, 0))
 
-        self.add_button = tk.Button(root, text="Add Task", command=self.add_task)
-        self.add_button.pack()
+        self.Task_Entry = tk.Entry(root)
+        self.Task_Entry.pack(pady=(0, 10))
 
-        self.task_listbox = tk.Listbox(root)
-        self.task_listbox.pack()
+        self.Due_Date_Label = tk.Label(root, text="Due Date (DD-MM-YYYY):")
+        self.Due_Date_Label.pack()
 
-        self.complete_button = tk.Button(root, text="Mark as Completed", command=self.complete_task)
-        self.complete_button.pack()
+        self.Due_Date_Entry = tk.Entry(root)
+        self.Due_Date_Entry.pack()
 
-    def add_task(self):
-        task = self.task_entry.get()
-        if task:
-            self.tasks.append({"title": task, "completed": False})
-            self.update_task_listbox()
-            self.task_entry.delete(0, tk.END)
+        self.Add_Button = tk.Button(root, text="Add Task", command=self.Add_Task)
+        self.Add_Button.pack()
+
+        self.Task_ListBox = tk.Listbox(root)
+        self.Task_ListBox.pack(pady=(10, 0))
+
+        self.Complete_Button = tk.Button(root, text="Mark as Completed", command=self.Complete_Task)
+        self.Complete_Button.pack()
+
+        self.Delete_Button = tk.Button(root, text="Delete Task", command=self.Delete_Task)
+        self.Delete_Button.pack()
+
+    def Add_Task(self):
+        Task = self.Task_Entry.get()
+        Due_Date = self.Due_Date_Entry.get()
+
+        if Task:
+            self.Tasks.append({"Title": Task, "Completed": False, "Due_Date":Due_Date})
+            self.Update_Task_Listbox()
+            self.Task_Entry.delete(0, tk.END)
+            self.Due_Date_Entry.delete(0, tk.END)
         else:
-            messagebox.showwarning("Warning", "Task cannot be empty.")
+            messagebox.showwarning("Warning", "Please Write a Task..")
+    def Complete_Task(self):
+        Selected_Index = self.Task_ListBox.curselection()
+        if Selected_Index:
+            Index = Selected_Index[0]
+            self.Tasks[Index]["Completed"] = True
+            self.Update_Task_Listbox() 
 
-    def complete_task(self):
-        selected_index = self.task_listbox.curselection()
-        if selected_index:
-            index = selected_index[0]
-            self.tasks[index]["completed"] = True
-            self.update_task_listbox()
+    def Delete_Task(self):
+        Selected_Index = self.Task_ListBox.curselection()
+        if Selected_Index:
+            Index = Selected_Index[0]
+            del self.Tasks[Index]
+            self.Update_Task_Listbox()
 
-    def update_task_listbox(self):
-        self.task_listbox.delete(0, tk.END)
-        for task in self.tasks:
-            status = "[✓]" if task["completed"] else "[ ]"
-            self.task_listbox.insert(tk.END, f"{status} {task['title']}")
+    def Update_Task_Listbox(self):
+        self.Task_ListBox.delete(0, tk.END)
+        for task in self.Tasks:
+            Status = "[✓]" if task["Completed"] else "[ ]"
+            Due_Date = f" (Due: {task['Due_Date']})" if task.get("Due_Date") else ""
+            self.Task_ListBox.insert(tk.END, f"{Status} {task['Title']}{Due_Date}")
 
 root = tk.Tk()
-app = ToDoApp(root)
+root.title("TO-DO LIST APP")
+root.geometry("400x500")
+app = TO_DO_APP(root)
 root.mainloop()
