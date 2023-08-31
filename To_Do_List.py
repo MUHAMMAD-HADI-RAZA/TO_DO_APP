@@ -12,13 +12,16 @@ class TO_DO_APP:
 
         self.Tasks = []
 
-        self.Task_Label = ttk.Label(root, text="TASK:", font=("Times New Roman", 14, "bold"))
-        self.Task_Label.pack(pady=(20, 5), padx=10, anchor="w")
+        self.Heading_Label = ttk.Label(root, text="TO-DO LIST", font=("Times New Roman", 16,"bold underline"), anchor="center")
+        self.Heading_Label.pack(pady=(20, 10), padx=10)
+
+        self.Task_Label = ttk.Label(root, text="TASK:", font=("Times New Roman", 14, "bold underline"))
+        self.Task_Label.pack(pady=(5, 5), padx=10, anchor="w")
 
         self.Task_Entry = ttk.Entry(root, font=("Times New Roman", 12))
         self.Task_Entry.pack(pady=(0, 10), padx=10, fill="x")
 
-        self.Due_Date_Label = ttk.Label(root, text="DUE DATE:", font=("Times New Roman", 14, "bold"))
+        self.Due_Date_Label = ttk.Label(root, text="DUE DATE:", font=("Times New Roman", 14, "bold underline"))
         self.Due_Date_Label.pack(pady=(5, 5), padx=10, anchor="w")
 
         self.Selected_Date = tk.StringVar()
